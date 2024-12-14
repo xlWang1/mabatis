@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace ：命名空间，对sql语句进行隔离，方便管理 ,不可重复-->
+<mapper namespace="com.mayikt.mapper.UserMapper">
+    <!-- id：方法名，在同一个namespace中不可重复
+        resultType：返回值类型，根据数据库字段类型进行转换
+    -->
+    <select id="getByUserAll" resultType="com.mayikt.entity.MayiktUserEntity">
+        select * from user
+    </select>
+    <select id="getByUserId" resultType="com.mayikt.entity.MayiktUserEntity">
+        select * from user where id = 3
+    </select>
+</mapper>

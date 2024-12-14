@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace ：命名空间，对sql语句进行隔离，方便管理 ,不可重复-->
+<mapper namespace="com.course.mapper.FlightImpl">
+    <!-- id：方法名，在同一个namespace中不可重复
+        resultType：返回值类型，根据数据库字段类型进行转换
+    -->
+    <!-- resultMap：结果集映射，将数据库字段映射到实体类中-->
+    <resultMap id="Fight" type="com.course.entity.Flight">
+        <id column="id" property="id"/>
+        <result column="flight_id" property="flightId"/>
+        <result column="company" property="company"/>
+        <result column="departure_airport" property="departureAirport"/>
+        <result column="arrive_airport" property="arrivalAirport"/>
+        <result column="departure_time" property="departureTime"/>
+        <result column="arrive_time" property="arrivalTime"/>
+        <result column="model" property="model"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+    <select id="getAllFlightList" resultMap="Fight">
+        select * from mayikt_flight;
+    </select>
+    <select id="getFlightById" parameterType="int" resultMap="Fight">
+        select * from mayikt_flight where id = #{id};
+    </select>
+    <!-- parameterType：参数类型，根据数据库字段类型进行转换
+    select标签用于查询，返回值类型根据resultType进行转换
+    insert标签用于插入数据
+    update标签用于修改数据
+    delete标签用于删除数据
+    -->
+    <insert id="insertFlignt" parameterType="com.course.entity.Flight">
+        insert into mayikt_flight(flight_id,company,departure_airport,arrive_airport,departure_time,arrive_time,model,is_delete)
+        values(#{flightId},#{company},#{departureAirport},#{arrivalAirport},#{departureTime},#{arrivalTime},#{model},#{isDelete});
+    </insert>
+    <update id="updateFlight" parameterType="com.course.entity.Flight">
+        update mayikt_flight set flight_id = #{flightId},company = #{company},departure_airport = #{departureAirport},arrive_airport = #{arrivalAirport},departure_time = #{departureTime},arrive_time = #{arrivalTime},model = #{model},is_delete = #{isDelete} where id = #{id};
+    </update>
+<!--    <delete id="deleteFlight" parameterType="int">-->
+<!--        delete from mayikt_flight where id = #{id};-->
+<!--    </delete>-->
+    <!-- 删除时只将isDelete置为1 -->
+    <update id="deleteFlight" parameterType="int">
+        update mayikt_flight set is_delete = 1 where id = #{id};
+    </update>
+
+    <!-- 多条件查询 -->
+
+    <select id="getFlightWithSomeParameter" parameterType="com.course.entity.Flight" resultMap="Fight">
+        select * from mayikt_flight where
+                                    company = #{company}
+                                    and flight_id = #{flightId};
+    </select>
+    <!-- 多条件动态查询 -->
+    <select id="getFlightWithSomeParameter2" parameterType="com.course.entity.Flight" resultMap="Fight">
+        select * from mayikt_flight
+            <where>
+<!--                <if test = "id!=null and id!=''">-->
+<!--                    id = #{id}-->
+<!--                </if>-->
+                <if test = "company!=null and company!=''">
+                    company = #{company}
+                </if>
+                <if test ="flightId!=null and flightId!=''">
+                    and flight_id = #{flightId}
+                </if>
+                <if test = "departureAirport!=null and departureAirport!=''">
+                    and departure_airport = #{departureAirport}
+                </if>
+                <if test = "arrivalAirport!=null and arrivalAirport!=''">
+                    and arrive_airport = #{arrivalAirport}
+                </if>
+                <if test = "departureTime!=null and departureTime!=''" >
+                    and departure_time = #{departureTime}
+                </if>
+                <if test = "arrivalTime!=null and arrivalTime!=''">
+                    and arrive_time = #{arrivalTime}
+                </if>
+                <if test = "model!=null and model!=''">
+                    and model = #{model}
+                </if>
+                <if test = "isDelete!=null and isDelete!=''">
+                    and is_delete = #{isDelete}
+                </if>
+            </where>
+    </select>
+</mapper>
