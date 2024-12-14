@@ -18,6 +18,14 @@
         <result column="arrive_time" property="arrivalTime"/>
         <result column="model" property="model"/>
         <result column="is_delete" property="isDelete"/>
+        <collection property="passengerList" javaType="list" ofType="com.course.entity.Passenger">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="gender" property="gender"/>
+            <result column="phone" property="phoneNumber"/>
+            <result column="idCard" property="idCard"/>
+            <result column="flightId" property="flightId"/>
+        </collection>
     </resultMap>
     <select id="getAllFlightList" resultMap="Fight">
         select * from mayikt_flight;
@@ -85,5 +93,8 @@
                     and is_delete = #{isDelete}
                 </if>
             </where>
+    </select>
+    <select id="findFlightAllPassenger" resultMap="Fight">
+        select * from mayikt_flight f left join passenger p on p.flightId = f.id;
     </select>
 </mapper>

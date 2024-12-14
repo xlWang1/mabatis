@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace ：命名空间，对sql语句进行隔离，方便管理 ,不可重复-->
+<mapper namespace="com.genshinimpact.mapperImpl.CountryImpl">
+    <resultMap id="Country" type="com.genshinimpact.entity.CountryEntity">
+        <id column="country_id" property="countryId"/>
+        <result column="country_name" property="countryName"/>
+    </resultMap>
+    <resultMap id="CountryWithHero" type="com.genshinimpact.entity.CountryEntity">
+        <id column="country_id" property="countryId"/>
+        <result column="country_name" property="countryName"/>
+        <collection property="heroEntityList" javaType="list" ofType="com.genshinimpact.entity.HeroEntity">
+            <id column="hero_id" property="heroId"/>
+            <result column="hero_name" property="heroName"/>
+            <result column="gender" property="gender"/>
+            <result column="weapon" property="weapon"/>
+            <result column="age" property="age"/>
+            <result column="skillE" property="skillE"/>
+            <result column="skillQ" property="skillQ"/>
+            <result column="country_id" property="countryId"/>
+        </collection>
+    </resultMap>
+<!--    <resultMap id="Hero" type="com.genshinimpact.entity.HeroEntity">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="name" property="name"/>-->
+<!--        <result column="gender" property="gender"/>-->
+<!--        <result column="weapon" property="weapon"/>-->
+<!--        <result column="age" property="age"/>-->
+<!--        <result column="skillE" property="skillE"/>-->
+<!--        <result column="skillQ" property="skillQ"/>-->
+<!--        <result column="country_id" property="countryId"/>-->
+<!--        <association property="country" javaType="com.genshinimpact.entity.CountryEntity">-->
+<!--            <id column="id" property="id"/>-->
+<!--            <result column="name" property="countryName"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+    <select id="getCountryByCountryId" parameterType="int" resultMap="Country">
+        select * from country where country_id = #{id};
+    </select>
+    <select id="getCountryAllHero" parameterType="int" resultMap="CountryWithHero">
+        select * from country c left join hero h on c.country_id = h.country_id where c.country_id = #{id};
+    </select>
+</mapper>

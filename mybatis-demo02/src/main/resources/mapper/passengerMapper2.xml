@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace ：命名空间，对sql语句进行隔离，方便管理 ,不可重复-->
+<mapper namespace="com.course.mapper.PassengerImpl">
+    <resultMap id="Passenger" type="com.course.entity.Passenger">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phoneNumber"/>
+        <result column="idCard" property="idCard"/>
+        <association property="flight" javaType="com.course.entity.Flight" column="flightId"></association>
+    </resultMap>
+    <select id="getPassengerList" resultMap="Passenger">
+        select * from passenger;
+    </select>
+
+    <insert id="addPassenger" parameterType="com.course.entity.Passenger">
+        insert into passenger(name,gender,phone,idCard) values(#{name},#{gender},#{phoneNumber},#{idCard});
+    </insert>
+    <select id="findPassengerAndFlight" resultMap="Passenger">
+--         select * from mayikt_flight f left join passenger p on p.flightId = f.id;
+        select * from passenger p left join mayikt_flight f on p.flightId = f.id;
+    </select>
+
+
+</mapper>

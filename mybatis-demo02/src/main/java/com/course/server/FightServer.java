@@ -1,5 +1,6 @@
 package com.course.server;
 import com.course.entity.Flight;
+import com.course.entity.Passenger;
 import com.course.mapper.FlightImpl;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -55,5 +56,8 @@ public class FightServer {
     }
     public List<Flight> getFlightWithSomeParameter2(Flight flight) {
         return mapper.getFlightWithSomeParameter2(flight);
+    }
+    public List<Flight> findFlightAllPassenger() {
+        return mapper.findFlightAllPassenger();
     }
 }

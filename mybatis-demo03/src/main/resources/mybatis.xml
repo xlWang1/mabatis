@@ -19,7 +19,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mapper/flightMapper.xml"/>
-        <mapper resource="mapper/passengerMapper.xml"/>
+        <mapper resource="mapperFile/mapper.xml"/>
     </mappers>
 </configuration>
